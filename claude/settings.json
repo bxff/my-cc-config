@@ -1,0 +1,44 @@
+{
+  "cleanupPeriodDays": 36500,
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "model": "deepseek-v4-flash",
+  "hooks": {
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/dexdevlon/.claude-ds/subagent-keep.sh",
+            "timeout": 120000
+          }
+        ]
+      }
+    ]
+  },
+  "extraKnownMarketplaces": {
+    "superwhisper": {
+      "source": {
+        "source": "github",
+        "repo": "superultrainc/superwhisper-claude-code"
+      }
+    }
+  },
+  "viewMode": "verbose",
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "showThinkingSummaries": true,
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "verbose": true,
+  "agentPushNotifEnabled": true,
+  "enabledPlugins": {
+    "superwhisper@superwhisper": true
+  }
+}

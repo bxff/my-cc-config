@@ -1,0 +1,10 @@
+{
+  "name": "my-cc-config",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Personal Claude Code build: third-party routing + subagent task-lifecycle QoL",
+  "dependencies": {
+    "claude-code-subagent-models": "file:../claude-code-subagent-models"
+  }
+}

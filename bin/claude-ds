@@ -1,0 +1,16 @@
+#!/bin/bash
+# claude-ds — patched Claude Code launcher. The native binary and your login
+# are untouched; provider env is scoped here so the stock `claude` never sees it.
+SRC="${BASH_SOURCE[0]}"
+while [ -L "$SRC" ]; do SRC="$(readlink "$SRC")"; done
+DIR="$(cd "$(dirname "$SRC")" && pwd)"
+RUN="${CC_RUN_DIR:-$HOME/.claude-ds}"
+
+# Optional secrets: put CC_DEEPSEEK_API_KEY in env.sh (gitignored).
+if [ -f "$RUN/env.sh" ]; then
+  # shellcheck disable=SC1091
+  . "$RUN/env.sh"
+fi
+eval "$(node "$DIR/cc-env")"
+
+exec "$HOME/.bun/bin/bun" "$RUN/claude.js" "$@" 2>>"$RUN/ccd.log"

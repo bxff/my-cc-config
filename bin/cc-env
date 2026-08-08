@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+// cc-env — emit launcher env from config.json: routing payload (CC_PROVIDERS),
+// the Agent-tool model list (CC_EXTRA_MODELS), and the official /model picker
+// entry (ANTHROPIC_CUSTOM_MODEL_OPTION*). Source with: eval "$(node cc-env)"
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const dir = path.dirname(fileURLToPath(import.meta.url));
+// config lives next to cc-env in the runtime dir, or ../config.json in the repo
+const cfgPath = fs.existsSync(path.join(dir, 'config.json'))
+  ? path.join(dir, 'config.json')
+  : path.join(dir, '..', 'config.json');
+const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
+const providers = (cfg.providers || []).map((p) => ({
+  prefix: p.prefix, baseUrl: p.baseUrl, apiKeyEnv: p.apiKeyEnv,
+}));
+const models = (cfg.providers || []).flatMap((p) => (p.models || []).map((m) => (typeof m === 'string' ? m : m.name)));
+const primary = cfg.providers?.[0]?.models?.[0];
+const primaryName = typeof primary === 'string' ? primary : primary?.name || '';
+const primaryLabel = typeof primary === 'object' ? primary?.label || primary?.name || primaryName : primaryName;
+const primaryDesc = typeof primary === 'object' ? primary?.description || '' : '';
+
+const esc = (s) => "'" + String(s).replace(/'/g, "'\\''") + "'";
+console.log('export CC_PROVIDERS=' + esc(JSON.stringify(providers)));
+console.log('export CC_EXTRA_MODELS=' + esc(models.join(',')));
+console.log('export ANTHROPIC_CUSTOM_MODEL_OPTION=' + esc(primaryName));
+console.log('export ANTHROPIC_CUSTOM_MODEL_OPTION_NAME=' + esc(primaryLabel));
+console.log('export ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION=' + esc(primaryDesc));
+console.log('export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1');

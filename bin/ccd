@@ -1,0 +1,4 @@
+#!/bin/bash
+# ccd — patched Claude Code with the usual defaults.
+# Your own flags after these win (e.g. `ccd --model deepseek-v4-flash`).
+exec "$HOME/.claude-ds/claude-ds" --model claude-opus-4-6 --verbose --dangerously-skip-permissions "$@"
