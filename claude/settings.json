@@ -22,14 +22,6 @@
       }
     ]
   },
-  "extraKnownMarketplaces": {
-    "superwhisper": {
-      "source": {
-        "source": "github",
-        "repo": "superultrainc/superwhisper-claude-code"
-      }
-    }
-  },
   "viewMode": "verbose",
   "effortLevel": "high",
   "tui": "fullscreen",
@@ -37,8 +29,5 @@
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
   "verbose": true,
-  "agentPushNotifEnabled": true,
-  "enabledPlugins": {
-    "superwhisper@superwhisper": true
-  }
+  "agentPushNotifEnabled": true
 }
