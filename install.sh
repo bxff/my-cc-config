@@ -12,5 +12,6 @@ BIN="$(command -v claude || true)"
 
 node "$DIR/patch-claude.mjs" "$BIN" "$RUN/claude.js" --providers "$DIR/config.json"
 cp "$DIR/bin/claude-ds" "$DIR/bin/ccd" "$DIR/bin/cc-env" "$DIR/config.json" "$RUN/"
+cp "$DIR/scripts/subagent-keep.sh" "$RUN/"
 ln -sf "$RUN/ccd" "$HOME/.local/bin/ccd"
 echo "installed: $RUN/claude.js + launchers ($HOME/.local/bin/ccd)"
