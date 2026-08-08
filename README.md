@@ -10,7 +10,7 @@ npm install
 ccd
 ```
 
-`install.sh` patches the current `claude` binary into `~/.claude-ds/claude.js`, extracts the embedded native addons into `~/.claude-ds/natives/`, and installs the launchers. Revert: delete `~/.claude-ds`; the stock `claude` is never touched.
+`install.sh` builds the patched bundle from the current `claude` binary into `~/.claude-ds/claude.js` (routing + QoL + native addons + the execpath override, in one pass), and installs the launchers. Revert: delete `~/.claude-ds`; the stock `claude` is never touched.
 
 ## Config
 
@@ -32,9 +32,9 @@ ccd
 }
 ```
 
-Put your API key in `~/.claude-ds/env.sh` (gitignored). The launcher derives the routing payload, the Agent-tool model list, and the official `/model` picker entry from `config.json`, so config changes need no re-patch.
+The launchers (`ccd` / `claude-ds`) source `~/.claude-ds/env.sh` (gitignored, holds `CC_DEEPSEEK_API_KEY`) and derive the routing payload, the Agent-tool model list, and the official `/model` picker entry from `config.json`, so config changes need no re-patch.
 
-Provider routing config lives in `config.json` (above). General Claude Code config (hooks, theme, effort, plugins, model default) lives in `claude/settings.json`:
+To run the raw one-liner (`npx claude-code-subagent-models`) without the launchers, the same env must reach the bundle at startup. Claude Code loads `~/.claude/settings.json` `"env"` into the process, so put the provider key and routing vars there too:
 
 `claude/settings.json`:
 
@@ -42,9 +42,11 @@ Provider routing config lives in `config.json` (above). General Claude Code conf
 {
   "cleanupPeriodDays": 36500,
   "env": {
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CC_DEEPSEEK_API_KEY": "",
+    "CC_PROVIDERS": "[{\"prefix\":\"deepseek\",\"baseUrl\":\"https://api.deepseek.com/anthropic\",\"apiKeyEnv\":\"CC_DEEPSEEK_API_KEY\"}]",
+    "CC_EXTRA_MODELS": "deepseek-v4-flash"
   },
-  "model": "deepseek-v4-flash",
   "hooks": {
     "SubagentStop": [
       {
@@ -66,17 +68,22 @@ Provider routing config lives in `config.json` (above). General Claude Code conf
 }
 ```
 
+Notes:
+
+- `CC_DEEPSEEK_API_KEY` is empty in the repo on purpose: fill in your real key in `~/.claude/settings.json` after syncing. Never commit a key.
+- There is deliberately no top-level `"model"` in settings.json. A model default there is read by every claude launch, including stock claude, which does not know `deepseek-v4-flash` and refuses to start with it. Pick the model in the patched client via `/model` instead; the routing and the picker list come from the bundle, not from settings.
+
 Sync `claude/` into `~/.claude` with:
 
 ```bash
 ./bin/sync-config.sh
 ```
 
-Credentials and anything private are never part of the repo; `sync-config.sh` does not touch `~/.claude/.credentials.json`.
+`sync-config.sh` overwrites `~/.claude/settings.json`, so run it before filling in the key. Credentials and anything private are never part of the repo; `sync-config.sh` does not touch `~/.claude/.credentials.json`.
 
 ## The QoL patch
 
-`patch-qol.mjs` splices the task list: 60-minute retention for completed subagents, `p`/`k` pinning, `x` dismiss, `d` detach (converts a subagent transcript into a resumable session and drops `claude --resume <uuid>` into the input), the `[p]` row markers, and the agents-view pin alias.
+`patch-qol.mjs` splices the task list: 60-minute retention for completed subagents, teammates, and in-process tasks, `p`/`k` pinning, `x` dismiss, `d` detach (converts a subagent transcript into a resumable session and drops `claude --resume <uuid>` into the input), the `[p]` row markers, and the agents-view pin alias.
 
 ## Scripts
 

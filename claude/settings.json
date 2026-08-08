@@ -1,13 +1,15 @@
 {
   "cleanupPeriodDays": 36500,
   "env": {
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CC_DEEPSEEK_API_KEY": "",
+    "CC_PROVIDERS": "[{\"prefix\":\"deepseek\",\"baseUrl\":\"https://api.deepseek.com/anthropic\",\"apiKeyEnv\":\"CC_DEEPSEEK_API_KEY\"}]",
+    "CC_EXTRA_MODELS": "deepseek-v4-flash"
   },
   "attribution": {
     "commit": "",
     "pr": ""
   },
-  "model": "deepseek-v4-flash",
   "hooks": {
     "SubagentStop": [
       {

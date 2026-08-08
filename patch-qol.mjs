@@ -15,14 +15,11 @@ const MARK = '/*ccq*/';
 // --- anchors (minified shape as shipped; property keys never rename) --------
 
 // 6) task retention — terminal tasks stay in the session list (Qse/Tdd/dMf)
+//    dMf is the eviction grace for teammates and in-process tasks (same family)
 const RETENTION = Buffer.from('Qse=30000,Tdd=30000');
 const RETENTION_NEW = Buffer.from('Qse=3600000,Tdd=3600000');
 const VIEW_REARM = Buffer.from('dMf=30000');
 const VIEW_REARM_NEW = Buffer.from('dMf=3600000');
-
-// 5) agents-view done-fold — keep completed agents listed
-const DONE_FOLD = Buffer.from('C=b>=eKS?b:0');
-const DONE_FOLD_NEW = Buffer.from('C=0');
 
 // 7) task panel keybindings — k=pin, x-on-terminal=dismiss, d=detach
 const PANEL_KEYS = Buffer.from('if(se.key==="x"&&!se.ctrl&&!se.meta){if(se.preventDefault(),ne.type==="local_bash"&&ne.status==="running")H(ne.id);');
@@ -150,8 +147,7 @@ const TREE_PIN_NEW = Buffer.from(
 
 const SITES = [
   ['task retention', RETENTION, RETENTION_NEW],
-  ['view re-arm', VIEW_REARM, VIEW_REARM_NEW],
-  ['agents-view done-fold', DONE_FOLD, DONE_FOLD_NEW],
+  ['teammate/in-process retention', VIEW_REARM, VIEW_REARM_NEW],
   ['panel keys p/k/x/d', PANEL_KEYS, PANEL_KEYS_NEW],
   ['row [p] marker', PIN_MARK, PIN_MARK_NEW],
   ['p pin hint', PIN_HINT, PIN_HINT_NEW],
