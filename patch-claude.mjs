@@ -39,7 +39,8 @@ function main() {
   const { bundle, bunfsStart } = extractBundle(inPath);
   let out = bundle;
   const nativesDir = bunfsStart >= 0 ? pathJoin(dirname(outPath), 'natives') : null;
-  const r = patchRouting(out, providers, null, nativesDir);
+  const claudeBin = bunfsStart >= 0 ? inPath : null;
+  const r = patchRouting(out, providers, null, nativesDir, claudeBin);
   out = r.out;
   if (!r.patched) console.log('routing: unchanged (already patched)');
 
