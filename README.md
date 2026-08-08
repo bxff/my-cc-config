@@ -2,6 +2,19 @@
 
 Personal Claude Code build. Routing comes from [claude-code-subagent-models](https://github.com/bxff/claude-code-subagent-models); this adds the subagent task-lifecycle QoL splices and the config.
 
+```
+my-cc-config/
+├── config.json            # providers (DeepSeek + any others)
+├── claude/
+│   └── settings.json      # general CC config (hooks, theme, effort, plugins)
+├── bin/                   # ccd, claude-ds, cc-env, sync-config.sh
+├── patch-claude.mjs       # full patcher: routing + QoL
+├── patch-qol.mjs          # pin / detach / retention splices
+├── install.sh             # patch the binary, install launchers
+├── env.sh.example         # API key template
+└── scripts/               # promote-*, subagent-keep, test-hybrid
+```
+
 ## Install
 
 ```bash
@@ -34,7 +47,7 @@ ccd
 
 Put your API key in `~/.claude-ds/env.sh` (gitignored). The launcher derives the routing payload, the Agent-tool model list, and the official `/model` picker entry from `config.json`, so config changes need no re-patch.
 
-General Claude Code config lives in `claude/`:
+Provider routing config lives in `config.json` (above). General Claude Code config lives in `claude/`:
 
 ```
 claude/
