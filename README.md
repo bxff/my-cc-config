@@ -38,9 +38,7 @@ General Claude Code config lives in `claude/`:
 
 ```
 claude/
-├── settings.json   # hooks, theme, effort, plugins, model default
-└── agents/
-    └── deepseek-worker.md
+└── settings.json   # hooks, theme, effort, plugins, model default
 ```
 
 `claude/settings.json`:
