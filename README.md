@@ -34,7 +34,7 @@ ccd
 
 The launchers (`ccd` / `claude-ds`) source `~/.claude-ds/env.sh` (gitignored, holds `CC_DEEPSEEK_API_KEY`) and derive the routing payload, the Agent-tool model list, and the official `/model` picker entry from `config.json`, so config changes need no re-patch.
 
-To run the raw one-liner (`npx claude-code-subagent-models`) without the launchers, the same env must reach the bundle at startup. Claude Code loads `~/.claude/settings.json` `"env"` into the process, so put the provider key and routing vars there too:
+To run the raw extension command (`ccr`) without the launchers, the same env must reach the bundle at startup. Claude Code loads `~/.claude/settings.json` `"env"` into the process, so put the provider key and routing vars there too:
 
 `claude/settings.json`:
 
