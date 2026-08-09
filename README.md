@@ -74,7 +74,7 @@ Sync `claude/` into `~/.claude` with:
 ./bin/sync-config.sh
 ```
 
-`sync-config.sh` overwrites `~/.claude/settings.json`, so run it before filling in the key. Credentials and anything private are never part of the repo; `sync-config.sh` does not touch `~/.claude/.credentials.json`.
+`sync-config.sh` backs up the current `~/.claude/settings.json` first (timestamped backups, newest 10 kept, never overwritten), so run it before filling in the key and you can always restore. Credentials and anything private are never part of the repo; `sync-config.sh` does not touch `~/.claude/.credentials.json`.
 
 ## The QoL patch
 
