@@ -68,11 +68,6 @@ To run the raw extension command (`ccr`) without the launchers, the same env mus
 }
 ```
 
-Notes:
-
-- `CC_DEEPSEEK_API_KEY` is empty in the repo on purpose: fill in your real key in `~/.claude/settings.json` after syncing. Never commit a key.
-- There is deliberately no top-level `"model"` in settings.json. A model default there is read by every claude launch, including stock claude, which does not know `deepseek-v4-flash` and refuses to start with it. Pick the model in the patched client via `/model` instead; the routing and the picker list come from the bundle, not from settings.
-
 Sync `claude/` into `~/.claude` with:
 
 ```bash
