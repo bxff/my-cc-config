@@ -6,5 +6,9 @@
   "description": "Personal Claude Code build: third-party routing + subagent task-lifecycle QoL",
   "dependencies": {
     "claude-code-subagent-models": "file:../claude-code-subagent-models"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bxff/my-cc-config.git"
   }
 }
