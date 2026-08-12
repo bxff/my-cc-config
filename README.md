@@ -33,7 +33,7 @@ ccd
 }
 ```
 
-The launchers (`ccd` / `claude-ds`) source `~/.claude-ds/env.sh` (gitignored, holds `CC_DEEPSEEK_API_KEY`) and derive the routing payload, the Agent-tool model list, and the `/model` picker entries from `config.json`, so config changes need no re-patch. The first model goes into the Custom slot (`ANTHROPIC_CUSTOM_MODEL_OPTION`), additional models use the Fable slot (`ANTHROPIC_DEFAULT_FABLE_MODEL`).
+The launchers (`ccd` / `claude-ds`) source `~/.claude-ds/env.sh` (gitignored, holds `CC_DEEPSEEK_API_KEY`) and derive the routing payload, the Agent-tool model list (`CC_EXTRA_MODELS`), the `/model` picker entry (`ANTHROPIC_CUSTOM_MODEL_OPTION`), and the full picker list (`CC_PICKER_MODELS`) from `config.json`, so config changes need no re-patch. Adding a model to `config.json` is enough — it appears in both the Agent tool dropdown and the `/model` picker.
 
 To run the raw extension command (`ccr`) without the launchers, the same env must reach the bundle at startup. Claude Code loads `~/.claude/settings.json` `"env"` into the process, so put the provider key and routing vars there too:
 
@@ -50,10 +50,7 @@ To run the raw extension command (`ccr`) without the launchers, the same env mus
     "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "500000",
     "ANTHROPIC_CUSTOM_MODEL_OPTION": "deepseek-v4-flash",
     "ANTHROPIC_CUSTOM_MODEL_OPTION_NAME": "DeepSeek V4 Flash",
-    "ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION": "Cheap and fast, routed to DeepSeek",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL": "deepseek-v4-pro",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL_NAME": "DeepSeek V4 Pro",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL_DESCRIPTION": "Strongest DeepSeek model, routed to DeepSeek"
+    "ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION": "Cheap and fast, routed to DeepSeek"
   },
   "hooks": {
     "SubagentStop": [

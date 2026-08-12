@@ -8,10 +8,7 @@
     "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "500000",
     "ANTHROPIC_CUSTOM_MODEL_OPTION": "deepseek-v4-flash",
     "ANTHROPIC_CUSTOM_MODEL_OPTION_NAME": "DeepSeek V4 Flash",
-    "ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION": "Cheap and fast, routed to DeepSeek",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL": "deepseek-v4-pro",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL_NAME": "DeepSeek V4 Pro",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL_DESCRIPTION": "Strongest DeepSeek model, routed to DeepSeek"
+    "ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION": "Cheap and fast, routed to DeepSeek"
   },
   "attribution": {
     "commit": "",

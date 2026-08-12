@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // cc-env — emit launcher env from config.json: routing payload (CC_PROVIDERS),
-// the Agent-tool model list (CC_EXTRA_MODELS), and the official /model picker
-// entry (ANTHROPIC_CUSTOM_MODEL_OPTION*). Source with: eval "$(node cc-env)"
+// the Agent-tool model list (CC_EXTRA_MODELS), the /model picker entry
+// (ANTHROPIC_CUSTOM_MODEL_OPTION*), and the picker extras (CC_PICKER_MODELS).
+// Source with: eval "$(node cc-env)"
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,19 +19,16 @@ const providers = (cfg.providers || []).map((p) => ({
 const models = (cfg.providers || []).flatMap((p) => (p.models || []).map((m) => (typeof m === 'string' ? m : m.name)));
 const allModels = (cfg.providers || []).flatMap((p) => (p.models || []).map((m) => (typeof m === 'string' ? { name: m, label: m, description: '' } : m)));
 
-// /model picker slots: first model → CUSTOM, additional → FABLE, HAIKU, etc.
-const slots = [
-  { model: 'ANTHROPIC_CUSTOM_MODEL_OPTION', name: 'ANTHROPIC_CUSTOM_MODEL_OPTION_NAME', desc: 'ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION' },
-  { model: 'ANTHROPIC_DEFAULT_FABLE_MODEL', name: 'ANTHROPIC_DEFAULT_FABLE_MODEL_NAME', desc: 'ANTHROPIC_DEFAULT_FABLE_MODEL_DESCRIPTION' },
-];
+const primary = allModels[0];
+const pickerModels = allModels.map((m) => ({ value: m.name, label: m.label || m.name, description: m.description || '' }));
 
 const esc = (s) => "'" + String(s).replace(/'/g, "'\\''") + "'";
 console.log('export CC_PROVIDERS=' + esc(JSON.stringify(providers)));
 console.log('export CC_EXTRA_MODELS=' + esc(models.join(',')));
-for (let i = 0; i < Math.min(allModels.length, slots.length); i++) {
-  const m = allModels[i], s = slots[i];
-  console.log('export ' + s.model + '=' + esc(m.name));
-  console.log('export ' + s.name + '=' + esc(m.label || m.name));
-  console.log('export ' + s.desc + '=' + esc(m.description || ''));
+if (primary) {
+  console.log('export ANTHROPIC_CUSTOM_MODEL_OPTION=' + esc(primary.name));
+  console.log('export ANTHROPIC_CUSTOM_MODEL_OPTION_NAME=' + esc(primary.label || primary.name));
+  console.log('export ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION=' + esc(primary.description || ''));
 }
+console.log('export CC_PICKER_MODELS=' + esc(JSON.stringify(pickerModels)));
 console.log('export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1');
