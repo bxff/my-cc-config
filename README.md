@@ -45,7 +45,8 @@ To run the raw extension command (`ccr`) without the launchers, the same env mus
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CC_DEEPSEEK_API_KEY": "",
     "CC_PROVIDERS": "[{\"prefix\":\"deepseek\",\"baseUrl\":\"https://api.deepseek.com/anthropic\",\"apiKeyEnv\":\"CC_DEEPSEEK_API_KEY\"}]",
-    "CC_EXTRA_MODELS": "deepseek-v4-flash"
+    "CC_EXTRA_MODELS": "deepseek-v4-flash",
+    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "500000"
   },
   "hooks": {
     "SubagentStop": [
@@ -67,6 +68,8 @@ To run the raw extension command (`ccr`) without the launchers, the same env mus
   "agentPushNotifEnabled": true
 }
 ```
+
+`CLAUDE_CODE_MAX_CONTEXT_TOKENS` sets the context window for non-`claude-*` models (Claude models are unaffected). Without it, DeepSeek defaults to 200K. At 500K, auto-compaction triggers at ~467K tokens — the same mechanism Claude uses for its own models (e.g. Opus 4.6 at 200K compacts around 160K).
 
 Sync `claude/` into `~/.claude` with:
 

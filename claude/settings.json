@@ -4,7 +4,8 @@
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CC_DEEPSEEK_API_KEY": "",
     "CC_PROVIDERS": "[{\"prefix\":\"deepseek\",\"baseUrl\":\"https://api.deepseek.com/anthropic\",\"apiKeyEnv\":\"CC_DEEPSEEK_API_KEY\"}]",
-    "CC_EXTRA_MODELS": "deepseek-v4-flash"
+    "CC_EXTRA_MODELS": "deepseek-v4-flash",
+    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "500000"
   },
   "attribution": {
     "commit": "",
