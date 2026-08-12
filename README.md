@@ -25,7 +25,8 @@ ccd
       "baseUrl": "https://api.deepseek.com/anthropic",
       "apiKeyEnv": "CC_DEEPSEEK_API_KEY",
       "models": [
-        { "name": "deepseek-v4-flash", "label": "DeepSeek V4 Flash", "description": "Cheap and fast, routed to DeepSeek" }
+        { "name": "deepseek-v4-flash", "label": "DeepSeek V4 Flash", "description": "Cheap and fast, routed to DeepSeek" },
+        { "name": "deepseek-v4-pro", "label": "DeepSeek V4 Pro", "description": "Strongest DeepSeek model, routed to DeepSeek" }
       ]
     }
   ]
@@ -45,7 +46,7 @@ To run the raw extension command (`ccr`) without the launchers, the same env mus
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CC_DEEPSEEK_API_KEY": "",
     "CC_PROVIDERS": "[{\"prefix\":\"deepseek\",\"baseUrl\":\"https://api.deepseek.com/anthropic\",\"apiKeyEnv\":\"CC_DEEPSEEK_API_KEY\"}]",
-    "CC_EXTRA_MODELS": "deepseek-v4-flash",
+    "CC_EXTRA_MODELS": "deepseek-v4-flash,deepseek-v4-pro",
     "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "500000"
   },
   "hooks": {
