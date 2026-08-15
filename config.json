@@ -1,4 +1,5 @@
 {
+  "maxContextTokens": 500000,
   "providers": [
     {
       "id": "deepseek",

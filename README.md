@@ -18,6 +18,7 @@ ccd
 
 ```json
 {
+  "maxContextTokens": 500000,
   "providers": [
     {
       "id": "deepseek",
@@ -35,7 +36,9 @@ ccd
 
 The launchers (`ccd` / `claude-ds`) source `~/.claude-ds/env.sh` (gitignored, holds `CC_DEEPSEEK_API_KEY`) and derive the routing payload, the Agent-tool model list (`CC_EXTRA_MODELS`), the `/model` picker entry (`ANTHROPIC_CUSTOM_MODEL_OPTION`), and the full picker list (`CC_PICKER_MODELS`) from `config.json`, so config changes need no re-patch. Adding a model to `config.json` is enough — it appears in both the Agent tool dropdown and the `/model` picker.
 
-To run the raw extension command (`ccr`) without the launchers, the same env must reach the bundle at startup. Claude Code loads `~/.claude/settings.json` `"env"` into the process, so put the provider key and routing vars there too:
+`cc-env` also emits `CLAUDE_CODE_MAX_CONTEXT_TOKENS` from `maxContextTokens`, so the context-window cap actually reaches the process at launch. Put it in `config.json`, **not** in the `~/.claude/settings.json` `"env"` block — that block only reaches subprocesses (Bash, hooks), so a context cap set there is silently ignored and the model's full window (DeepSeek reports 1M) is used.
+
+To run the raw extension command (`ccr`) without the launchers, the routing env (`CC_PROVIDERS`, `CC_EXTRA_MODELS`, `CC_DEEPSEEK_API_KEY`) must still reach the bundle at startup; the example below shows the `claude/settings.json` shape:
 
 `claude/settings.json`:
 
@@ -47,7 +50,6 @@ To run the raw extension command (`ccr`) without the launchers, the same env mus
     "CC_DEEPSEEK_API_KEY": "",
     "CC_PROVIDERS": "[{\"prefix\":\"deepseek\",\"baseUrl\":\"https://api.deepseek.com/anthropic\",\"apiKeyEnv\":\"CC_DEEPSEEK_API_KEY\"}]",
     "CC_EXTRA_MODELS": "deepseek-v4-flash,deepseek-v4-pro",
-    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "500000",
     "ANTHROPIC_CUSTOM_MODEL_OPTION": "deepseek-v4-flash",
     "ANTHROPIC_CUSTOM_MODEL_OPTION_NAME": "DeepSeek V4 Flash",
     "ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION": "Cheap and fast, routed to DeepSeek"
@@ -72,8 +74,6 @@ To run the raw extension command (`ccr`) without the launchers, the same env mus
   "agentPushNotifEnabled": true
 }
 ```
-
-`CLAUDE_CODE_MAX_CONTEXT_TOKENS` sets the context window for non-`claude-*` models (Claude models are unaffected). Without it, DeepSeek defaults to 200K. At 500K, auto-compaction triggers at ~467K tokens — the same mechanism Claude uses for its own models (e.g. Opus 4.6 at 200K compacts around 160K).
 
 Sync `claude/` into `~/.claude` with:
 

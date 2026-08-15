@@ -32,3 +32,4 @@ if (primary) {
 }
 console.log('export CC_PICKER_MODELS=' + esc(JSON.stringify(pickerModels)));
 console.log('export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1');
+console.log('export CLAUDE_CODE_MAX_CONTEXT_TOKENS=' + esc(String(cfg.maxContextTokens ?? 500000)));
