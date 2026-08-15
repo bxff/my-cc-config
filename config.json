@@ -1,5 +1,7 @@
 {
-  "maxContextTokens": 500000,
+  "autoCompactWindow": 500000,
+  "maxOutputTokens": 128000,
+  "effortLevel": "max",
   "providers": [
     {
       "id": "deepseek",
