@@ -38,6 +38,8 @@ ccd
 
 The launchers (`ccd` / `claude-ds`) source `~/.claude-ds/env.sh` (gitignored, holds `CC_DEEPSEEK_API_KEY`) and derive the routing payload, the Agent-tool model list (`CC_EXTRA_MODELS`), the `/model` picker entry (`ANTHROPIC_CUSTOM_MODEL_OPTION`), and the full picker list (`CC_PICKER_MODELS`) from `config.json`, so config changes need no re-patch. Adding a model to `config.json` is enough — it appears in both the Agent tool dropdown and the `/model` picker.
 
+**Vision:** since claude-code-subagent-models 0.1.27, a routed request naming `deepseek-v4-flash` is rewritten on the wire to `deepseek-v4-flash-vision-exp` — same price, superset of capabilities. The name stays `deepseek-v4-flash` everywhere (config, picker, subagents, transcripts); images just work, including in subagents (hand them an image file path in the task prompt; their Read tool returns it as an image block). `deepseek-v4-pro` is never affected.
+
 `cc-env` also emits `CLAUDE_CODE_AUTO_COMPACT_WINDOW` (from `autoCompactWindow`), `CLAUDE_CODE_MAX_OUTPUT_TOKENS` (from `maxOutputTokens`), and `CLAUDE_CODE_EFFORT_LEVEL` (from `effortLevel`) so they reach the process at launch. Put them in `config.json`, **not** in the `~/.claude/settings.json` `"env"` block — that block only reaches subprocesses (Bash, hooks), so values set there are silently ignored. `autoCompactWindow` compacts the session at 500K, safely under DeepSeek's 1M window. `effortLevel: "max"` needs `maxOutputTokens ≥ 64000` (thinking truncates mid-thought otherwise).
 
 To run the raw extension command (`ccr`) without the launchers, the routing env (`CC_PROVIDERS`, `CC_EXTRA_MODELS`, `CC_DEEPSEEK_API_KEY`) must still reach the bundle at startup; the example below shows the `claude/settings.json` shape:
